@@ -1,0 +1,1570 @@
+{
+    "x96": {
+        "functionCode": 3,
+        "Total_Energy": {
+            "name": "Total_Energy",
+            "id": 343,
+            "size": 2,
+            "type": "int",
+            "endian": 1234
+        },
+        "Total_Import_Energy": {
+            "name": "Total_Import_Energy",
+            "id": 345,
+            "size": 2,
+            "type": "int",
+            "endian": 1234
+        },
+        "Total_Export_Energy": {
+            "name": "Total_Export_Energy",
+            "id": 347,
+            "size": 2,
+            "type": "int",
+            "endian": 1234
+        }
+    },
+    "sdm630": {
+        "functionCode": 4,
+        
+        "Active Power L1": {
+            "description": "Active Power Line 1",
+            "id": 12,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power L2": {
+            "description": "Active Power Line 2",
+            "id": 14,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power L3": {
+            "description": "Active Power Line 3",
+            "id": 16,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power L1": {
+            "description": "Apparent Power Line 1",
+            "id": 18,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power L2": {
+            "description": "Apparent Power Line 2",
+            "id": 20,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power L3": {
+            "description": "Apparent Power Line 3",
+            "id": 22,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power L1": {
+            "description": "Reactive Power Line 1",
+            "id": 24,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power L2": {
+            "description": "Reactive Power Line 2",
+            "id": 26,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power L3": {
+            "description": "Reactive Power Line 3",
+            "id": 28,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Power Factor L1": {
+            "description": "Power Factor Line 1",
+            "id": 30,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Power Factor L2": {
+            "description": "Power Factor Line 2",
+            "id": 32,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Power Factor L3": {
+            "description": "Power Factor Line 3",
+            "id": 34,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Phase Angle L1": {
+            "description": "Phase Angle Line 1",
+            "id": 36,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Phase Angle L2": {
+            "description": "Phase Angle Line 2",
+            "id": 38,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Phase Angle L3": {
+            "description": "Phase Angle Line 3",
+            "id": 40,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Average Voltage": {
+            "description": "Average Voltage",
+            "id": 42,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Average Current": {
+            "description": "Average Current",
+            "id": 46,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current": {
+            "description": "Total Current",
+            "id": 48,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Phase Angle": {
+            "description": "Total Phase Angle",
+            "id": 66,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        
+        "Import Active Energy": {
+            "description": "Import Active Energy",
+            "id": 72,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Export Active Energy": {
+            "description": "Export Active Energy",
+            "id": 74,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Import Reactive Energy": {
+            "description": "Import Reactive Energy",
+            "id": 76,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Export Reactive Energy": {
+            "description": "Export Reactive Energy",
+            "id": 78,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current L1": {
+            "description": "Current L1",
+            "id": 258,
+            "size": 2,
+            "type": "float",
+            "endian": 1234
+        },
+        "Voltage L12": {
+            "description": "Voltage L12",
+            "id": 200,
+            "size": 2,
+            "type": "float",
+            "endian": 1234
+        },
+        "Current L2": {
+            "description": "Current L2",
+            "id": 260,
+            "size": 2,
+            "type": "float",
+            "endian": 1234
+        },
+        "Voltage L23": {
+            "description": "Voltage L23",
+            "id": 202,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Current L3": {
+            "description": "Current L3",
+            "id": 262,
+            "size": 2,
+            "type": "float",
+            "endian": 1234
+        },
+        "Voltage L31": {
+            "description": "Voltage L31",
+            "id": 204,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L1": {
+            "description": "Voltage L1",
+            "id": 0,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Voltage L2": {
+            "description": "Voltage L2",
+            "id": 2,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Voltage L3": {
+            "description": "Voltage L3",
+            "id": 4,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current LN": {
+            "description": "Current LN",
+            "id": 46,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Frequency": {
+            "description": "Frequency",
+            "id": 70,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Power Factor": {
+            "description": "Total Power Factor",
+            "id": 62,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power": {
+            "description": "Total Active Power",
+            "id": 52,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power": {
+            "description": "Total Apparent Power",
+            "id": 56,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power": {
+            "description": "Total Reactive Power",
+            "id": 60,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Energy": {
+            "description": "Total Apparent Energy",
+            "id": 80,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Ampere Hour": {
+            "description": "Ampere Hour",
+            "id": 82,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power Demand": {
+            "description": "Current Active Power Demand",
+            "id": 84,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Active Power Demand": {
+            "description": "Maximum Active Power Demand",
+            "id": 86,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power Demand": {
+            "description": "Current Apparent Power Demand",
+            "id": 100,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Apparent Power Demand": {
+            "description": "Maximum Apparent Power Demand",
+            "id": 102,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Neutral Current Demand": {
+            "description": "Current Neutral Current Demand",
+            "id": 104,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Neutral Current Demand": {
+            "description": "Maximum Neutral Current Demand",
+            "id": 106,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Neutral Current": {
+            "description": "Neutral Line Current",
+            "id": 224,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD V1": {
+            "description": "THD Line 1 To Neutral Voltage",
+            "id": 234,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD V2": {
+            "description": "THD Line 2 To Neutral Voltage",
+            "id": 236,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD V3": {
+            "description": "THD Line 3 To Neutral Voltage",
+            "id": 238,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD I1": {
+            "description": "THD Line 1 Current",
+            "id": 240,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD I2": {
+            "description": "THD Line 2 Current",
+            "id": 242,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD I3": {
+            "description": "THD Line 3 Current",
+            "id": 244,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Average THD V": {
+            "description": "Average THD Line To Neutral Voltage",
+            "id": 248,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Average THD I": {
+            "description": "Average THD Line Current",
+            "id": 250,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current Demand L1": {
+            "description": "Current Demand Line 1",
+            "id": 258,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current Demand L2": {
+            "description": "Current Demand Line 2",
+            "id": 260,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current Demand L3": {
+            "description": "Current Demand Line 3",
+            "id": 262,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Current Demand L1": {
+            "description": "Maximum Current Demand Line 1",
+            "id": 264,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Current Demand L2": {
+            "description": "Maximum Current Demand Line 2",
+            "id": 266,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Current Demand L3": {
+            "description": "Maximum Current Demand Line 3",
+            "id": 268,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD V12": {
+            "description": "THD Line 1 To Line 2 Voltage",
+            "id": 334,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD V23": {
+            "description": "THD Line 2 To Line 3 Voltage",
+            "id": 336,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD V31": {
+            "description": "THD Line 3 To Line 1 Voltage",
+            "id": 340,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Average THD VLL": {
+            "description": "Average THD Line To Line Voltage",
+            "id": 340,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Total Active Energy": {
+            "description": "Total Active Energy",
+            "id": 342,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Total Reactive Energy": {
+            "description": "Total Reactive Energy",
+            "id": 344,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L1 Import Active Energy": {
+            "description": "Import Active Energy Line 1",
+            "id": 346,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L2 Import Active Energy": {
+            "description": "Import Active Energy Line 2",
+            "id": 348,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L3 Import Active Energy": {
+            "description": "Import Active Energy Line 3",
+            "id": 350,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L1 Export Active Energy": {
+            "description": "Export Active Energy Line 1",
+            "id": 352,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L2 Export Active Energy": {
+            "description": "Export Active Energy Line 2",
+            "id": 354,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L3 Export Active Energy": {
+            "description": "Export Active Energy Line 3",
+            "id": 356,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L1 Total Active Energy": {
+            "description": "Total Active Energy Line 1",
+            "id": 358,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L2 Total Active Energy": {
+            "description": "Total Active Energy Line 2",
+            "id": 360,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L3 Total Active Energy": {
+            "description": "Total Active Energy Line 3",
+            "id": 362,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L1 Import Reactive Energy": {
+            "description": "Import Reactive Energy Line 1",
+            "id": 364,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L2 Import Reactive Energy": {
+            "description": "Import Reactive Energy Line 2",
+            "id": 366,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L3 Import Reactive Energy": {
+            "description": "Import Reactive Energy Line 3",
+            "id": 368,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L1 Export Reactive Energy": {
+            "description": "Export Reactive Energy Line 1",
+            "id": 370,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L2 Export Reactive Energy": {
+            "description": "Export Reactive Energy Line 2",
+            "id": 372,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L3 Export Reactive Energy": {
+            "description": "Export Reactive Energy Line 3",
+            "id": 374,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L1 Total Reactive Energy": {
+            "description": "Total Reactive Energy Line 1",
+            "id": 376,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L2 Total Reactive Energy": {
+            "description": "Total Reactive Energy Line 2",
+            "id": 378,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "L3 Total Reactive Energy": {
+            "description": "Total Reactive Energy Line 3",
+            "id": 380,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        }
+    },
+    "mikro380": {
+        "functionCode": 3,
+        "Import Active Energy": {
+            "description": "Import Active Energy",
+            "id": 4002,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Export Active Energy": {
+            "description": "Export Active Energy",
+            "id": 4000,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Energy": {
+            "description": "Apparent Energy",
+            "id": 4006,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Import Reactive Energy": {
+            "description": "Import Reactive Energy",
+            "id": 4010,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Export Reactive Energy": {
+            "description": "Export Reactive Energy",
+            "id": 4008,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power": {
+            "description": "Active Power",
+            "id": 4012,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power": {
+            "description": "Apparent Power",
+            "id": 4014,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power": {
+            "description": "Reactive Power",
+            "id": 4016,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Power Factor": {
+            "description": "Power Factor",
+            "id": 4018,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.001
+        },
+        "Frequency": {
+            "description": "Frequency",
+            "id": 4019,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.01
+        },
+        "Current L1": {
+            "description": "Current L1",
+            "id": 4020,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Current L2": {
+            "description": "Current L2",
+            "id": 4022,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Current L3": {
+            "description": "Current L3",
+            "id": 4024,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Current LN": {
+            "description": "Current LN",
+            "id": 4026,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Voltage L12": {
+            "description": "Voltage L12",
+            "id": 4028,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L23": {
+            "description": "Voltage L23",
+            "id": 4030,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L31": {
+            "description": "Voltage L31",
+            "id": 4032,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L1": {
+            "description": "Voltage L1",
+            "id": 4034,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L2": {
+            "description": "Voltage L2",
+            "id": 4036,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L3": {
+            "description": "Voltage L3",
+            "id": 4038,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Active Power L1": {
+            "description": "Active Power L1",
+            "id": 4040,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power L2": {
+            "description": "Active Power L2",
+            "id": 4042,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power L3": {
+            "description": "Active Power L3",
+            "id": 4044,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power L1": {
+            "description": "Apparent Power L1",
+            "id": 4046,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power L2": {
+            "description": "Apparent Power L2",
+            "id": 4048,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power L3": {
+            "description": "Apparent Power L3",
+            "id": 4050,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power L1": {
+            "description": "Reactive Power L1",
+            "id": 4052,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power L2": {
+            "description": "Reactive Power L2",
+            "id": 4054,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power L3": {
+            "description": "Reactive Power L3",
+            "id": 4056,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power Demand": {
+            "description": "Reactive Power Demand",
+            "id": 4058,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Reactive Power Demand": {
+            "description": "Maximum Reactive Power Demand",
+            "id": 4060,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power Demand": {
+            "description": "Active Power Demand",
+            "id": 4064,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Active Power Demand": {
+            "description": "Maximum Active Power Demand",
+            "id": 4066,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power Demand": {
+            "description": "Apparent Power Demand",
+            "id": 4070,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Apparent Power Demand": {
+            "description": "Maximum Apparent Power Demand",
+            "id": 4072,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 1
+        },
+        "THD I1": {
+            "description": "THD I1",
+            "id": 4082,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD I2": {
+            "description": "THD I2",
+            "id": 4083,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD I3": {
+            "description": "THD I3",
+            "id": 4084,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD V1": {
+            "description": "THD V1",
+            "id": 4085,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD V2": {
+            "description": "THD V2",
+            "id": 4086,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD V3": {
+            "description": "THD V3",
+            "id": 4087,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "Power Factor L1": {
+            "description": "Power Factor L1",
+            "id": 4089,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.001
+        },
+        "Power Factor L2": {
+            "description": "Power Factor L2",
+            "id": 4091,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.001
+        },
+        "Power Factor L3": {
+            "description": "Power Factor L3",
+            "id": 4093,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.001
+        }
+    },
+    "pqm1000": {
+        "functionCode": 3,
+        "Current L1": {
+            "description": "Current L1",
+            "id": 0,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Current L2": {
+            "description": "Current L2",
+            "id": 2,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Current L3": {
+            "description": "Current L3",
+            "id": 4,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Current LN": {
+            "description": "Current LN",
+            "id": 6,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "Voltage L1": {
+            "description": "Voltage L1",
+            "id": 8,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L2": {
+            "description": "Voltage L2",
+            "id": 10,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L3": {
+            "description": "Voltage L3",
+            "id": 12,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L12": {
+            "description": "Voltage L12",
+            "id": 14,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L23": {
+            "description": "Voltage L23",
+            "id": 16,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Voltage L31": {
+            "description": "Voltage L31",
+            "id": 18,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Frequency": {
+            "description": "Frequency",
+            "id": 21,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.01
+        },
+        "Active Power L1": {
+            "description": "Active Power L1",
+            "id": 22,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Active Power L2": {
+            "description": "Active Power L2",
+            "id": 24,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Active Power L3": {
+            "description": "Active Power L3",
+            "id": 26,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Reactive Power L1": {
+            "description": "Reactive Power L1",
+            "id": 28,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Reactive Power L2": {
+            "description": "Reactive Power L2",
+            "id": 30,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Reactive Power L3": {
+            "description": "Reactive Power L3",
+            "id": 32,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Apparent Power L1": {
+            "description": "Apparent Power L1",
+            "id": 34,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Apparent Power L2": {
+            "description": "Apparent Power L2",
+            "id": 36,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Apparent Power L3": {
+            "description": "Apparent Power L3",
+            "id": 38,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Power Factor L1": {
+            "description": "Power Factor L1",
+            "id": 40,
+            "size": 1,
+            "type": "sint",
+            "endian": 12,
+            "mul": 0.001    
+        },
+        "Power Factor L2": {
+            "description": "Power Factor L2",
+            "id": 41,
+            "size": 1,
+            "type": "sint",
+            "endian": 12,
+            "mul": 0.001
+        },
+        "Power Factor L3": {
+            "description": "Power Factor L3",
+            "id": 42,
+            "size": 1,
+            "type": "sint",
+            "endian": 12,
+            "mul": 0.001
+        },
+        "Power Factor": {
+            "description": "Power Factor",
+            "id": 43,
+            "size": 1,
+            "type": "sint",
+            "endian": 12,
+            "mul": 0.001
+        },
+        "Import Active Energy": {
+            "description": "Import Active Energy",
+            "id": 48,
+            "size": 4,
+            "type": "int",
+            "endian": 12345678,
+            "mul": 100
+        },
+        "Export Active Energy": {
+            "description": "Export Active Energy",
+            "id": 52,
+            "size": 4,
+            "type": "int",
+            "endian": 12345678,
+            "mul": 100
+        },
+        "Import Reactive Energy": {
+            "description": "Import Reactive Energy",
+            "id": 56,
+            "size": 4,
+            "type": "int",
+            "endian": 12345678,
+            "mul": 100
+        },
+        "Export Reactive Energy": {
+            "description": "Export Reactive Energy",
+            "id": 60,
+            "size": 4,
+            "type": "int",
+            "endian": 12345678,
+            "mul": 100
+        },
+        "Apparent Energy": {
+            "description": "Import Apparent Energy",
+            "id": 64,
+            "size": 4,
+            "type": "int",
+            "endian": 12345678,
+            "mul": 100
+        },
+        "Maximum Active Power Demand": {
+            "description": "Maximum Active Power Demand",
+            "id": 74,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Maximum Apparent Power Demand": {
+            "description": "Maximum Apparent Power Demand",
+            "id": 82,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Maximum Current Demand": {
+            "description": "Maximum Current Demand",
+            "id": 90,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.001
+        },
+        "THD V1": {
+            "description": "THD V1",
+            "id": 117,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD V2": {
+            "description": "THD V2",
+            "id": 118,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD V3": {
+            "description": "THD V3",
+            "id": 119,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD I1": {
+            "description": "THD I1",
+            "id": 120,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD I2": {
+            "description": "THD I2",
+            "id": 121,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "THD I3": {
+            "description": "THD I3",
+            "id": 122,
+            "size": 1,
+            "type": "int",
+            "endian": 12,
+            "mul": 0.1
+        },
+        "Active Power": {
+            "description": "Active Power",
+            "id": 256,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Reactive Power": {
+            "description": "Reactive Power",
+            "id": 258,
+            "size": 2,
+            "type": "sint",
+            "endian": 1234,
+            "mul": 0.1
+        },
+        "Apparent Power": {
+            "description": "Apparent Power",
+            "id": 260,
+            "size": 2,
+            "type": "int",
+            "endian": 1234,
+            "mul": 0.1
+        }
+    },
+    "sdm230": {
+        "functionCode": 4,
+        "Voltage": {
+            "description": "Voltage",
+            "id": 0,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current": {
+            "description": "Current",
+            "id": 6,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Active Power": {
+            "description": "Active Power",
+            "id": 12,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Apparent Power": {
+            "description": "Apparent Power",
+            "id": 18,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Reactive Power": {
+            "description": "Reactive Power",
+            "id": 24,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Power Factor": {
+            "description": "Power Factor",
+            "id": 30,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Phase Angle": {
+            "description": "Phase Angle",
+            "id": 36,
+            "size": 2,
+            "type": "float",
+            "endian": 1234
+        },
+        "Frequency": {
+            "description": "Frequency",
+            "id": 70,
+            "size": 2,
+            "type": "float",
+            "endian": 1234
+        },
+        "Import Active Energy": {
+            "description": "Import Active Energy",
+            "id": 72,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Export Active Energy": {
+            "description": "Export Active Energy",
+            "id": 74,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Import Reactive Energy": {
+            "description": "Import Reactive Energy",
+            "id": 76,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Export Reactive Energy": {
+            "description": "Export Reactive Energy",
+            "id": 78,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Power Demand": {
+            "description": "Total Power Demand",
+            "id": 84,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Power Demand": {
+            "description": "Maximum Total Power Demand",
+            "id": 86,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current Postive Power Demand": {
+            "description": "Current Positive Power Demand",
+            "id": 88,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Positive Power Demand": {
+            "description": "Maximum Positive Power Demand",
+            "id": 90,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current Negative Power Demand": {
+            "description": "Current Negative Power Demand",
+            "id": 92,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Negative Power Demand": {
+            "description": "Maximum Negative Power Demand",
+            "id": 94,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Current Demand": {
+            "description": "Current Demand",
+            "id": 258,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Maximum Current Demand": {
+            "description": "Maximum Current Demand",
+            "id": 264,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Total Active Energy": {
+            "description": "Total Active Energy",
+            "id": 342,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        },
+        "Total Reactive Energy": {
+            "description": "Total Reactive Energy",
+            "id": 345,
+            "size": 2,
+            "type": "float",
+            "endian": 1234,
+            "mul": 1
+        }
+    }
+}

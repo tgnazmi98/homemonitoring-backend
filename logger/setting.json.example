@@ -1,0 +1,32 @@
+{
+  "Logger_ID": "Home",
+  "Device_IP": "192.168.x.x",
+  "Device_Port": 502,
+  "Troubleshoot": 0,
+  "meter_params": "meterlist.json",
+  "meterlist": [
+    {
+      "name": "Main",
+      "id": 1,
+      "model": "sdm230",
+      "paramlist": [
+        "Voltage",
+        "Current",
+        "Active Power",
+        "Apparent Power",
+        "Reactive Power",
+        "Power Factor",
+        "Phase Angle",
+        "Frequency",
+        "Import Active Energy",
+        "Export Active Energy",
+        "Import Reactive Energy",
+        "Export Reactive Energy",
+        "Power Demand",
+        "Maximum Power Demand",
+        "Current Demand",
+        "Maximum Current Demand"
+      ]
+    }
+  ]
+}

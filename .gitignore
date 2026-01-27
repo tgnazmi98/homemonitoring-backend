@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+.venv/
+ENV/
+env/
+
+# Environment files
+.env
+*.env
+
+# Database
+db.sqlite3
+*.db
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Django
+*.pot
+*.pyc
+staticfiles/
+
+# Sensitive config files
+logger/setting.json
+
+# Coverage
+htmlcov/
+.coverage
+.coverage.*
+
+# Misc
+*.pem
