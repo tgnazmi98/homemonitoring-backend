@@ -29,6 +29,7 @@ class PowerReading(models.Model):
         indexes = [
             models.Index(fields=['meter_name', '-timestamp']),
             models.Index(fields=['uploaded']),
+            models.Index(fields=['-timestamp']),
         ]
 
     def __str__(self):
@@ -58,6 +59,7 @@ class EnergyReading(models.Model):
         indexes = [
             models.Index(fields=['meter_name', '-timestamp']),
             models.Index(fields=['uploaded']),
+            models.Index(fields=['-timestamp']),
         ]
 
     def __str__(self):
