@@ -13,9 +13,7 @@ pipeline {
     stages {
         stage('Pull Latest') {
             steps {
-                dir("${REPO_DIR}") {
-                    sh 'git pull origin main'
-                }
+                sh "git -C ${REPO_DIR} pull origin main"
             }
         }
 
