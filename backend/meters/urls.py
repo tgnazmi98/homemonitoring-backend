@@ -18,6 +18,14 @@ urlpatterns = [
     path('api/energy-consumption/<str:meter_name>/', views.energy_consumption_data, name='energy_consumption_data'),
     path('api/realtime/<str:meter_name>/', views.realtime_data, name='realtime_data'),
     path('api/export/<str:meter_name>/', views.export_data, name='export_data'),
+    # Billing endpoints
+    path('api/billing/<str:meter_name>/', views.billing_calculation, name='billing_calculation'),
+    # Admin endpoints for tariff management
+    path('api/admin/tariff-rates/', views.tariff_rates_list, name='tariff_rates_list'),
+    path('api/admin/tariff-rates/active/', views.tariff_rates_active, name='tariff_rates_active'),
+    path('api/admin/tariff-rates/<int:pk>/', views.tariff_rate_detail, name='tariff_rate_detail'),
+    path('api/admin/fuel-adjustments/', views.fuel_adjustments_list, name='fuel_adjustments_list'),
+    path('api/admin/fuel-adjustments/<int:pk>/', views.fuel_adjustment_detail, name='fuel_adjustment_detail'),
     # Router URLs (REST API for models)
     path('api/', include(router.urls)),
 ]

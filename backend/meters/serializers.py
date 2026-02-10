@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Meter, PowerReading, EnergyReading
+from .models import Meter, PowerReading, EnergyReading, TariffRate, FuelAdjustment, ToUPeakHours, EfficiencyIncentiveTier
 from django.utils import timezone
 from datetime import datetime
 
@@ -94,3 +94,27 @@ class MeterDataBulkSerializer(serializers.Serializer):
             )
 
         return validated_data
+
+
+class TariffRateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TariffRate
+        fields = '__all__'
+
+
+class FuelAdjustmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FuelAdjustment
+        fields = '__all__'
+
+
+class ToUPeakHoursSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ToUPeakHours
+        fields = '__all__'
+
+
+class EfficiencyIncentiveTierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EfficiencyIncentiveTier
+        fields = '__all__'

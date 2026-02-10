@@ -15,8 +15,8 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
-from .models import Meter, PowerReading, EnergyReading
-from .serializers import MeterSerializer, PowerReadingSerializer, EnergyReadingSerializer, MeterDataBulkSerializer, UserSerializer
+from .models import Meter, PowerReading, EnergyReading, TariffRate, FuelAdjustment, ToUPeakHours, EfficiencyIncentiveTier
+from .serializers import MeterSerializer, PowerReadingSerializer, EnergyReadingSerializer, MeterDataBulkSerializer, UserSerializer, TariffRateSerializer, FuelAdjustmentSerializer
 
 # UTC+8 timezone for Malaysia
 LOCAL_TZ = pytz.timezone('Asia/Kuala_Lumpur')
@@ -323,129 +323,6 @@ def meter_historical_data(request, meter_name):
         'power_readings': PowerReadingSerializer(power_data, many=True).data,
         'energy_readings': EnergyReadingSerializer(energy_data, many=True).data
     })
-
-@api_view(['GET'])
-def export_data_csv(request):
-    """Export meter data to CSV format"""
-    meter_name = request.GET.get('meter_name')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-    data_type = request.GET.get('type', 'power')  # power or energy
-
-    # Parse dates
-    try:
-        if start_date:
-            start_date = datetime.fromisoformat(start_date.replace('Z', '+00:00'))
-        else:
-            start_date = timezone.now() - timedelta(days=7)
-
-        if end_date:
-            end_date = datetime.fromisoformat(end_date.replace('Z', '+00:00'))
-        else:
-            end_date = timezone.now()
-    except ValueError:
-        return Response({'error': 'Invalid date format'}, status=400)
-
-    # Query data
-    if data_type == 'energy':
-        queryset = EnergyReading.objects.filter(
-            timestamp__gte=start_date,
-            timestamp__lte=end_date
-        )
-        if meter_name:
-            queryset = queryset.filter(meter_name=meter_name)
-
-        # Convert to DataFrame
-        data = list(queryset.values())
-        df = pd.DataFrame(data)
-    else:
-        queryset = PowerReading.objects.filter(
-            timestamp__gte=start_date,
-            timestamp__lte=end_date
-        )
-        if meter_name:
-            queryset = queryset.filter(meter_name=meter_name)
-
-        # Convert to DataFrame
-        data = list(queryset.values())
-        df = pd.DataFrame(data)
-
-    if df.empty:
-        return Response({'error': 'No data found for the specified criteria'}, status=404)
-
-    # Create CSV
-    output = io.StringIO()
-    df.to_csv(output, index=False)
-
-    # Create response
-    response = HttpResponse(output.getvalue(), content_type='text/csv')
-    filename = f"{meter_name or 'all_meters'}_{data_type}_data_{start_date.strftime('%Y%m%d')}_{end_date.strftime('%Y%m%d')}.csv"
-    response['Content-Disposition'] = f'attachment; filename="{filename}"'
-
-    return response
-
-@api_view(['GET'])
-def export_data_excel(request):
-    """Export meter data to Excel format"""
-    meter_name = request.GET.get('meter_name')
-    start_date = request.GET.get('start_date')
-    end_date = request.GET.get('end_date')
-
-    # Parse dates
-    try:
-        if start_date:
-            start_date = datetime.fromisoformat(start_date.replace('Z', '+00:00'))
-        else:
-            start_date = timezone.now() - timedelta(days=7)
-
-        if end_date:
-            end_date = datetime.fromisoformat(end_date.replace('Z', '+00:00'))
-        else:
-            end_date = timezone.now()
-    except ValueError:
-        return Response({'error': 'Invalid date format'}, status=400)
-
-    # Create Excel file
-    output = io.BytesIO()
-
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        # Power readings
-        power_queryset = PowerReading.objects.filter(
-            timestamp__gte=start_date,
-            timestamp__lte=end_date
-        )
-        if meter_name:
-            power_queryset = power_queryset.filter(meter_name=meter_name)
-
-        power_data = list(power_queryset.values())
-        if power_data:
-            power_df = pd.DataFrame(power_data)
-            power_df.to_excel(writer, sheet_name='Power Readings', index=False)
-
-        # Energy readings
-        energy_queryset = EnergyReading.objects.filter(
-            timestamp__gte=start_date,
-            timestamp__lte=end_date
-        )
-        if meter_name:
-            energy_queryset = energy_queryset.filter(meter_name=meter_name)
-
-        energy_data = list(energy_queryset.values())
-        if energy_data:
-            energy_df = pd.DataFrame(energy_data)
-            energy_df.to_excel(writer, sheet_name='Energy Readings', index=False)
-
-    output.seek(0)
-
-    # Create response
-    response = HttpResponse(
-        output.read(),
-        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    )
-    filename = f"{meter_name or 'all_meters'}_data_{start_date.strftime('%Y%m%d')}_{end_date.strftime('%Y%m%d')}.xlsx"
-    response['Content-Disposition'] = f'attachment; filename="{filename}"'
-
-    return response
 
 @api_view(['GET'])
 def timeseries_data(request, meter_name):
@@ -813,6 +690,553 @@ def realtime_data(request, meter_name):
 
     except Exception as e:
         return Response({'error': str(e)}, status=500)
+
+
+def calculate_efficiency_incentive(consumption_kwh):
+    """Calculate energy efficiency incentive rebate for consumption <1000 kWh"""
+    consumption_kwh = float(consumption_kwh)
+
+    if consumption_kwh >= 1000:
+        return 0.0
+
+    tiers = EfficiencyIncentiveTier.objects.filter(is_active=True).order_by('min_kwh')
+    total_rebate = 0.0
+
+    for tier in tiers:
+        min_kwh = float(tier.min_kwh)
+        max_kwh = float(tier.max_kwh)
+        rebate_rate = float(tier.rebate_sen_per_kwh)
+
+        if consumption_kwh < min_kwh:
+            break
+
+        kwh_in_tier = min(consumption_kwh, max_kwh) - min_kwh + 1
+        tier_rebate = float(kwh_in_tier) * rebate_rate / 100  # Convert sen to RM
+
+        total_rebate += tier_rebate
+
+    return float(abs(total_rebate))  # Return as positive value (discount)
+
+
+def calculate_general_tariff_billing(consumption_kwh, billing_month):
+    """Calculate General Tariff billing with 2-tier energy pricing"""
+    try:
+        tariff = TariffRate.objects.filter(
+            tariff_type='GENERAL',
+            is_active=True,
+            effective_from__lte=billing_month
+        ).order_by('-effective_from').first()
+
+        if not tariff:
+            return None
+
+        afa = FuelAdjustment.objects.filter(
+            effective_month__year=billing_month.year,
+            effective_month__month=billing_month.month,
+            is_active=True
+        ).first()
+
+        afa_rate = float(afa.rate_sen_per_kwh) if afa else 0
+        consumption_kwh = float(consumption_kwh)
+
+        # Determine energy rate based on consumption tier
+        tier1_threshold = float(tariff.tier1_threshold_kwh or 1500)
+
+        if consumption_kwh <= tier1_threshold:
+            energy_rate_sen = float(tariff.energy_rate_tier1_sen or 27.03)
+            tier = 'tier1'
+        else:
+            energy_rate_sen = float(tariff.energy_rate_tier2_sen or 37.03)
+            tier = 'tier2'
+
+        capacity_rate = float(tariff.capacity_rate_sen or 4.55)
+        network_rate = float(tariff.network_rate_sen or 12.85)
+        retail_waive_threshold = float(tariff.retail_waive_threshold_kwh or 600)
+        retail_charge = float(tariff.retail_charge_rm or 10.00) if consumption_kwh > retail_waive_threshold else 0.0
+
+        # Calculate charges (all as float)
+        energy_charge = float(consumption_kwh * energy_rate_sen / 100)
+        capacity_charge = float(consumption_kwh * capacity_rate / 100)
+        network_charge = float(consumption_kwh * network_rate / 100)
+        afa_charge = float(consumption_kwh * afa_rate / 100)
+
+        subtotal = float(energy_charge + capacity_charge + network_charge + afa_charge + retail_charge)
+        efficiency_incentive = float(calculate_efficiency_incentive(consumption_kwh))
+        subtotal_after_incentive = float(subtotal - efficiency_incentive)
+
+        # Calculate KWTB charge (1.6% of subtotal before incentive)
+        kwtb_charge = float(subtotal * 0.016)
+
+        total = float(subtotal_after_incentive + kwtb_charge)
+
+        return {
+            'consumption_kwh': round(consumption_kwh, 2),
+            'energy_tier': tier,
+            'energy_rate_sen': round(energy_rate_sen, 2),
+            'energy_charge_rm': round(energy_charge, 2),
+            'capacity_charge_rm': round(capacity_charge, 2),
+            'network_charge_rm': round(network_charge, 2),
+            'afa_charge_rm': round(afa_charge, 2),
+            'retail_charge_rm': round(retail_charge, 2),
+            'efficiency_incentive_rm': round(efficiency_incentive, 2),
+            'subtotal_before_incentive_rm': round(subtotal, 2),
+            'kwtb_charge_rm': round(kwtb_charge, 2),
+            'total_amount_rm': round(total, 2),
+        }
+    except Exception as e:
+        print(f"Error calculating general tariff: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
+def find_reading_near_time(readings, target_datetime, tolerance_minutes=15):
+    """
+    Find the reading closest to target_datetime within tolerance.
+
+    Args:
+        readings: List of readings with timestamp and import_active_energy
+        target_datetime: Target datetime to find reading near
+        tolerance_minutes: Maximum minutes away from target (default 15)
+
+    Returns:
+        float: import_active_energy value, or None if no reading within tolerance
+    """
+    tolerance = timedelta(minutes=tolerance_minutes)
+    closest_reading = None
+    closest_diff = None
+
+    for reading in readings:
+        time_diff = abs(reading['timestamp'] - target_datetime)
+        if time_diff <= tolerance:
+            if closest_diff is None or time_diff < closest_diff:
+                closest_diff = time_diff
+                closest_reading = reading['import_active_energy']
+
+    return closest_reading
+
+
+def calculate_tou_billing(energy_readings, billing_month):
+    """
+    Simplified TOU billing calculation using boundary-based peak consumption.
+
+    Gets readings at peak period boundaries (14:00-22:00 local time) to calculate
+    peak consumption per weekday, avoiding complex per-reading timestamp analysis.
+
+    Args:
+        energy_readings: QuerySet or list of EnergyReading objects with timestamp and import_active_energy
+        billing_month: datetime.date object for billing month lookup
+
+    Returns:
+        Dictionary with billing breakdown including peak/off-peak split, or None on error
+    """
+    try:
+        # Get all readings as list for easier processing
+        readings = list(energy_readings) if not isinstance(energy_readings, list) else energy_readings
+
+        if len(readings) < 2:
+            return None
+
+        # Ensure we have timestamp and import_active_energy fields
+        readings_with_values = []
+        for r in readings:
+            if isinstance(r, dict):
+                readings_with_values.append(r)
+            else:
+                # Convert model instance to dict
+                readings_with_values.append({
+                    'timestamp': r.timestamp,
+                    'import_active_energy': r.import_active_energy
+                })
+
+        readings = readings_with_values
+
+        # Total consumption = last reading - first reading
+        first_reading = float(readings[0]['import_active_energy'] or 0)
+        last_reading = float(readings[-1]['import_active_energy'] or 0)
+        total_kwh = last_reading - first_reading
+
+        if total_kwh <= 0:
+            return None
+
+        # Get tariff rates
+        tariff = TariffRate.objects.filter(
+            tariff_type='TOU',
+            is_active=True,
+            effective_from__lte=billing_month
+        ).order_by('-effective_from').first()
+
+        if not tariff:
+            return None
+
+        # Get AFA rate
+        afa = FuelAdjustment.objects.filter(
+            effective_month__year=billing_month.year,
+            effective_month__month=billing_month.month,
+            is_active=True
+        ).first()
+
+        afa_rate = float(afa.rate_sen_per_kwh) if afa else 0
+
+        # Calculate peak consumption by finding readings at peak boundaries
+        peak_kwh_total = 0.0
+
+        # Get billing period date range (20th of start month to 19th of end month)
+        # For AFA lookup: if billing_month is 2024-02-01, the billing period is
+        # 2024-01-20 to 2024-02-19, and we use Feb AFA
+        start_month = billing_month.month
+        start_year = billing_month.year
+
+        # Determine the actual billing period start and end dates
+        if start_month == 12:
+            end_month = 1
+            end_year = start_year + 1
+        else:
+            end_month = start_month + 1
+            end_year = start_year
+
+        # Billing starts on 20th of current month
+        period_start = LOCAL_TZ.localize(datetime(start_year, start_month, 20, 0, 0, 0))
+        # Billing ends on 19th of next month at 23:59:59
+        period_end = LOCAL_TZ.localize(datetime(end_year, end_month, 19, 23, 59, 59))
+
+        # Iterate through each weekday in the period
+        current_date = period_start.date()
+        end_date = period_end.date()
+
+        while current_date <= end_date:
+            # Only process weekdays (Monday=0 to Friday=4)
+            if current_date.weekday() < 5:
+                # Peak hours: 14:00 to 22:00 local time
+                peak_start_dt = LOCAL_TZ.localize(datetime.combine(
+                    current_date,
+                    datetime.min.time().replace(hour=14, minute=0, second=0)
+                ))
+
+                peak_end_dt = LOCAL_TZ.localize(datetime.combine(
+                    current_date,
+                    datetime.min.time().replace(hour=22, minute=0, second=0)
+                ))
+
+                # Find readings near these times
+                reading_at_start = find_reading_near_time(readings, peak_start_dt)
+                reading_at_end = find_reading_near_time(readings, peak_end_dt)
+
+                # If both readings exist, calculate peak consumption for this day
+                if reading_at_start is not None and reading_at_end is not None:
+                    day_peak_kwh = reading_at_end - reading_at_start
+                    if day_peak_kwh > 0:  # Sanity check
+                        peak_kwh_total += day_peak_kwh
+
+            current_date += timedelta(days=1)
+
+        # Off-peak is remainder
+        offpeak_kwh = max(0, total_kwh - peak_kwh_total)
+
+        # Determine tier based on total consumption
+        tier1_threshold = float(tariff.tier1_threshold_kwh or 1500)
+
+        if total_kwh <= tier1_threshold:
+            tier = 'tier1'
+            peak_rate = float(tariff.energy_rate_tier1_peak_sen or 28.52)
+            offpeak_rate = float(tariff.energy_rate_tier1_offpeak_sen or 24.43)
+        else:
+            tier = 'tier2'
+            peak_rate = float(tariff.energy_rate_tier2_peak_sen or 38.52)
+            offpeak_rate = float(tariff.energy_rate_tier2_offpeak_sen or 34.43)
+
+        # Calculate charges
+        energy_charge_peak = float(peak_kwh_total * peak_rate / 100)
+        energy_charge_offpeak = float(offpeak_kwh * offpeak_rate / 100)
+        energy_charge_total = float(energy_charge_peak + energy_charge_offpeak)
+
+        capacity_rate = float(tariff.capacity_rate_sen or 4.55)
+        network_rate = float(tariff.network_rate_sen or 12.85)
+        capacity_charge = float(total_kwh * capacity_rate / 100)
+        network_charge = float(total_kwh * network_rate / 100)
+        afa_charge = float(total_kwh * afa_rate / 100)
+
+        # Retail charge
+        retail_waive_threshold = float(tariff.retail_waive_threshold_kwh or 600)
+        retail_charge = float(tariff.retail_charge_rm or 10.00) if total_kwh > retail_waive_threshold else 0.0
+
+        subtotal = float(energy_charge_total + capacity_charge + network_charge + afa_charge + retail_charge)
+
+        # Efficiency incentive (if consumption < 1000 kWh)
+        efficiency_incentive = float(calculate_efficiency_incentive(total_kwh))
+
+        # KWTB charge (1.6% of subtotal before incentive)
+        kwtb_charge = float(subtotal * 0.016)
+
+        total = float(subtotal - efficiency_incentive + kwtb_charge)
+
+        return {
+            'consumption_kwh': round(total_kwh, 2),
+            'energy_tier': tier,
+            'tou_breakdown': {
+                'peak_kwh': round(peak_kwh_total, 2),
+                'peak_rate_sen': round(peak_rate, 2),
+                'peak_cost_rm': round(energy_charge_peak, 2),
+                'offpeak_kwh': round(offpeak_kwh, 2),
+                'offpeak_rate_sen': round(offpeak_rate, 2),
+                'offpeak_cost_rm': round(energy_charge_offpeak, 2),
+                'total_energy_charge_rm': round(energy_charge_total, 2),
+            },
+            'capacity_charge_rm': round(capacity_charge, 2),
+            'network_charge_rm': round(network_charge, 2),
+            'afa_charge_rm': round(afa_charge, 2),
+            'retail_charge_rm': round(retail_charge, 2),
+            'efficiency_incentive_rm': round(efficiency_incentive, 2),
+            'subtotal_before_incentive_rm': round(subtotal, 2),
+            'kwtb_charge_rm': round(kwtb_charge, 2),
+            'total_amount_rm': round(total, 2),
+        }
+    except Exception as e:
+        print(f"Error calculating ToU billing: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
+def get_billing_period_key(dt):
+    """
+    Get billing period key (20/MM - 19/MM format).
+    Returns string like '2024-01~2024-02' for period 20 Jan - 19 Feb
+    """
+    local_time = convert_to_local_time(dt) if hasattr(dt, 'tzinfo') else dt
+
+    day = local_time.day
+    year = local_time.year
+    month = local_time.month
+
+    # If day is 20-31, billing period starts this month
+    if day >= 20:
+        period_start_month = month
+        period_start_year = year
+
+        # Handle month overflow (Dec 20 - Jan 19)
+        if month == 12:
+            period_end_month = 1
+            period_end_year = year + 1
+        else:
+            period_end_month = month + 1
+            period_end_year = year
+    else:
+        # If day is 1-19, billing period started last month
+        if month == 1:
+            period_start_month = 12
+            period_start_year = year - 1
+        else:
+            period_start_month = month - 1
+            period_start_year = year
+
+        period_end_month = month
+        period_end_year = year
+
+    return {
+        'key': f"{period_start_year}-{period_start_month:02d}~{period_end_year}-{period_end_month:02d}",
+        'start_year': period_start_year,
+        'start_month': period_start_month,
+        'end_year': period_end_year,
+        'end_month': period_end_month,
+    }
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def billing_calculation(request, meter_name):
+    """Calculate billing for past 12 billing periods (20/MM - 19/MM)"""
+    try:
+        tariff_type = request.GET.get('tariff_type', 'GENERAL').upper()
+        periods = int(request.GET.get('periods', 12))
+
+        if tariff_type not in ['GENERAL', 'TOU']:
+            return Response({'error': 'Invalid tariff_type. Use GENERAL or TOU'}, status=400)
+
+        # Get energy readings for past N billing periods (approximately 30 days each)
+        # Include current incomplete day for real-time billing visibility
+        now = timezone.now()
+        start_date = now - timedelta(days=30 * periods)
+
+        energy_readings = EnergyReading.objects.filter(
+            meter_name=meter_name,
+            timestamp__gte=start_date,
+            timestamp__lte=now
+        ).order_by('timestamp').values(
+            'timestamp', 'import_active_energy'
+        )
+
+        if not energy_readings:
+            return Response({'error': 'No energy data found for specified period'}, status=404)
+
+        readings_list = list(energy_readings)
+
+        # Group readings by billing period (20/MM - 19/MM)
+        billing_periods = {}
+        for reading in readings_list:
+            timestamp = reading['timestamp']
+            period_info = get_billing_period_key(timestamp)
+            period_key = period_info['key']
+
+            if period_key not in billing_periods:
+                billing_periods[period_key] = {
+                    'period': period_key,
+                    'start_month': f"{period_info['start_year']}-{period_info['start_month']:02d}",
+                    'end_month': f"{period_info['end_year']}-{period_info['end_month']:02d}",
+                    'readings': [],
+                }
+            billing_periods[period_key]['readings'].append(reading)
+
+        # Calculate billing for each period
+        billing_data = []
+        total_consumption = 0
+        total_cost = 0
+
+        for period_key in sorted(billing_periods.keys()):
+            period_info = billing_periods[period_key]
+            readings = period_info['readings']
+
+            if not readings:
+                continue
+
+            # Use start month of billing period for AFA lookup
+            start_year, start_month = map(int, period_info['start_month'].split('-'))
+            billing_month = datetime(start_year, start_month, 1).date()
+
+            if tariff_type == 'GENERAL':
+                # For General Tariff: just use first and last readings
+                first_reading = float(readings[0]['import_active_energy'] or 0)
+                last_reading = float(readings[-1]['import_active_energy'] or 0)
+                consumption = last_reading - first_reading
+
+                if consumption < 0:
+                    # Meter might have reset, skip this period
+                    continue
+
+                billing = calculate_general_tariff_billing(consumption, billing_month)
+
+            else:  # TOU
+                # For ToU: simplified calculation using boundary-based peak consumption
+                billing = calculate_tou_billing(readings, billing_month)
+
+            if billing:
+                billing['period'] = period_key
+                billing['start_month'] = period_info['start_month']
+                billing['end_month'] = period_info['end_month']
+                # Keep month fields for backward compatibility
+                billing['month'] = period_key
+                billing_data.append(billing)
+                total_consumption += billing['consumption_kwh']
+                total_cost += billing['total_amount_rm']
+
+        avg_consumption = total_consumption / len(billing_data) if billing_data else 0
+        avg_cost = total_cost / len(billing_data) if billing_data else 0
+
+        return Response({
+            'meter_name': meter_name,
+            'tariff_type': tariff_type,
+            'timezone': 'UTC+8',
+            'billing_period_format': '20/MM - 19/MM',
+            'billing_data': billing_data,
+            'summary': {
+                'total_consumption_kwh': round(total_consumption, 2),
+                'total_cost_rm': round(total_cost, 2),
+                'avg_monthly_consumption_kwh': round(avg_consumption, 2),
+                'avg_monthly_cost_rm': round(avg_cost, 2),
+                'periods_analyzed': len(billing_data),
+            }
+        })
+
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return Response({'error': str(e)}, status=500)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def tariff_rates_list(request):
+    """List all tariff rates or create new"""
+    if request.method == 'GET':
+        tariffs = TariffRate.objects.all().order_by('-effective_from')
+        serializer = TariffRateSerializer(tariffs, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = TariffRateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def tariff_rates_active(request):
+    """Get currently active tariff rates for both GENERAL and TOU"""
+    today = timezone.now().date()
+    tariffs = TariffRate.objects.filter(
+        is_active=True,
+        effective_from__lte=today
+    ).order_by('tariff_type', '-effective_from').distinct('tariff_type')
+
+    serializer = TariffRateSerializer(tariffs, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def tariff_rate_detail(request, pk):
+    """Get or update a specific tariff rate"""
+    try:
+        tariff = TariffRate.objects.get(pk=pk)
+    except TariffRate.DoesNotExist:
+        return Response({'error': 'Tariff rate not found'}, status=404)
+
+    if request.method == 'GET':
+        serializer = TariffRateSerializer(tariff)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = TariffRateSerializer(tariff, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def fuel_adjustments_list(request):
+    """List all fuel adjustments or create new"""
+    if request.method == 'GET':
+        afas = FuelAdjustment.objects.all().order_by('-effective_month')
+        serializer = FuelAdjustmentSerializer(afas, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        serializer = FuelAdjustmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def fuel_adjustment_detail(request, pk):
+    """Get or update a specific fuel adjustment"""
+    try:
+        afa = FuelAdjustment.objects.get(pk=pk)
+    except FuelAdjustment.DoesNotExist:
+        return Response({'error': 'Fuel adjustment not found'}, status=404)
+
+    if request.method == 'GET':
+        serializer = FuelAdjustmentSerializer(afa)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = FuelAdjustmentSerializer(afa, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
 
 def export_data(request, meter_name):
